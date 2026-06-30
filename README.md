@@ -38,10 +38,12 @@ This is not a replacement for human peer review and does not guarantee the paper
 
 ## How to Request an Endorsement
 
-Send me an email with:
+**Submit a pull request to this repository** — do not send requests by email. All endorsement requests are handled publicly via pull requests for transparency: anyone can see what was submitted and what decision was made.
+
+To submit a request, open a pull request that adds a new file under `requests/` containing:
 
 1. Your verified LinkedIn profile URL
-2. Your paper as a PDF attachment
+2. A link to your paper (PDF or preprint URL)
 3. The arXiv subject area you intend to submit to
 
-I will run the AI review on my end and reply with my decision.
+I will run the AI review on my end and post my decision as a comment on the pull request.
