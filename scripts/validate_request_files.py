@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 import sys
 from pathlib import Path
 from urllib.parse import urlparse
@@ -157,7 +158,8 @@ VALID_SUBJECTS = {
     "stat.TH",
 }
 
-REQUIRED_FIELDS = ("LinkedIn", "Paper", "Subject")
+REQUIRED_FIELDS = ("LinkedIn", "Paper", "Subject", "EndorsementCode")
+ENDORSEMENT_CODE_RE = re.compile(r"^[A-Za-z0-9]{6}$")
 
 
 def validate_https_url(value: str) -> bool:
@@ -213,7 +215,7 @@ def parse_request_file(path: Path) -> list[str]:
 
     if seen_names and tuple(seen_names) != REQUIRED_FIELDS:
         errors.append(
-            "fields must appear exactly once and in this order: LinkedIn, Paper, Subject"
+            "fields must appear exactly once and in this order: LinkedIn, Paper, Subject, EndorsementCode"
         )
 
     for field in REQUIRED_FIELDS:
@@ -235,6 +237,10 @@ def parse_request_file(path: Path) -> list[str]:
         errors.append(
             "Subject must be a valid arXiv category ID from https://arxiv.org/category_taxonomy"
         )
+
+    endorsement_code = fields.get("EndorsementCode")
+    if endorsement_code and not ENDORSEMENT_CODE_RE.fullmatch(endorsement_code):
+        errors.append("EndorsementCode must be a six-character alphanumeric code")
 
     return errors
 
